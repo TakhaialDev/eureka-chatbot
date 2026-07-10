@@ -1,0 +1,14 @@
+@reference "tailwindcss";
+.sidebar{
+transition: all 0.3s ease-in-out;
+  /* or more specific: */
+  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar.expanded{
+    @apply absolute w-full   text-white z-10 flex p-3 ;
+
+}
+
+
+

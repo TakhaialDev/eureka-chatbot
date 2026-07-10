@@ -1,0 +1,35 @@
+@reference "tailwindcss";
+
+
+.fullscreen {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.2;
+    top: 0;
+    background-color: black;
+    padding: 0;
+    z-index: 20;
+  }
+
+ .sidebar{
+    position: fixed;
+    overflow-y: auto;
+    min-width: 240px;
+    top: 0;
+    height: 100%;
+    width: fit-content;
+    background-color: white;
+    z-index: 1000;
+    transition: all 0.4s ease-in-out;
+    font-size: 20px ;
+    padding: 20px 0px ;
+  }
+
+.sidebar{
+  inset-inline-start: -200%;
+}
+.sidebar.expanded{
+  inset-inline-start: 0;
+  width: 100%;
+}

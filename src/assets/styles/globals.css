@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
+@theme {
+  /* Eureka brand palette — sampled from eureka_logo.jpeg (#8EC641 background green).
+     Token names kept as-is (primary-gold, dark-navy, etc.) since they're used
+     throughout the codebase — only the color values changed to match Eureka. */
+  --color-primary-gold: #8ec641;
+  --color-dark-navy: #1f2d17;
+  --color-sidebar-bg: #1f2d17;
+  --color-cream-bg: #f4f8ee;
+  --color-secondary-blue: #4f8a1f;
+  /* Darker accent green for buttons/highlights on dark surfaces (was a third
+     hardcoded gold, #C5A059, in LeadCaptureWidget — kept as its own token so
+     that widget's contrast against --color-dark-navy is preserved). */
+  --color-accent-gold: #719e34;
+  --color-text-on-accent: #10190c;
+}
+
+.btn{
+  @apply px-2 sm:px-6 py-2 hover:cursor-pointer flex justify-center rounded-md font-semibold capitalize disabled:cursor-default transition-colors duration-150;
+}
+
+.btn.btn-primary{
+  @apply bg-primary-gold hover:bg-dark-navy text-white disabled:bg-gray-500;
+}
+.btn.btn-secondary{
+  @apply bg-secondary-blue hover:bg-primary-gold text-white disabled:bg-gray-500;
+}
