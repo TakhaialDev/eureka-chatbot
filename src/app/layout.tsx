@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "@/assets/styles/globals.css";
 import { Suspense } from "react";
 import ClientProvider from "@/components/hooks/ClientProvider";
 
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Eureka Shopping Assistant",
-  description: "Eureka Shopping Assistant",
-  icons:{
-    icon:"/logo.png"
-  }
+  description: "Your AI-powered shopping guide for Eureka Kuwait — electronics, home appliances, and more.",
+  icons: {
+    icon: "/eureka-logo-green.png",
+  },
 };
 
 export default function RootLayout({
@@ -19,15 +29,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`bg-cream-bg`}>
-        <div style={{ overflowX: "hidden", maxWidth: "100vw", position: "relative" }}>
-          <ClientProvider>
-            <Suspense fallback={<div className="fixed inset-0 flex items-center justify-center bg-dark-navy"><div className="w-16 h-16 border-4 border-primary-gold/20 border-t-primary-gold rounded-full animate-spin" /></div>}>
-              {children}
-            </Suspense>
-          </ClientProvider>
-        </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange={false}
+        >
+          <div style={{ overflowX: "hidden", maxWidth: "100vw", position: "relative" }}>
+            <ClientProvider>
+              <Suspense
+                fallback={
+                  <div className="fixed inset-0 flex items-center justify-center bg-background">
+                    <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary eureka-spinner" />
+                  </div>
+                }
+              >
+                {children}
+              </Suspense>
+            </ClientProvider>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

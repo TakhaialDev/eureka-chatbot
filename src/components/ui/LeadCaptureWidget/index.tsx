@@ -10,13 +10,13 @@ import { FaPhoneAlt, FaTimes } from "react-icons/fa";
 
 /* ─── Shared styles ─────────────────────────────────────────────────────── */
 const inputCls =
-  "w-full bg-white/5 border border-primary-gold/30 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-primary-gold/75 focus:bg-white/[0.07] transition-all duration-150";
+  "w-full bg-input border border-border/50 rounded-lg px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/75 focus:bg-accent/30 transition-all duration-150";
 const labelCls =
-  "block text-primary-gold/60 text-[10px] font-semibold tracking-[0.12em] uppercase mb-1.5";
+  "block text-primary/70 text-[10px] font-semibold tracking-[0.12em] uppercase mb-1.5";
 const primaryBtnCls =
-  "w-full py-3 rounded-xl bg-accent-gold text-text-on-accent font-bold text-sm tracking-wide hover:brightness-110 active:scale-[0.985] disabled:opacity-35 disabled:cursor-not-allowed transition-all duration-150 flex items-center justify-center gap-2";
+  "w-full py-3 rounded-xl eureka-gradient text-white font-bold text-sm tracking-wide hover:opacity-90 active:scale-[0.985] disabled:opacity-35 disabled:cursor-not-allowed transition-all duration-150 flex items-center justify-center gap-2";
 const skipBtnCls =
-  "w-full py-2.5 rounded-xl border border-primary-gold/30 text-primary-gold/80 text-sm hover:bg-white/5 transition-colors";
+  "w-full py-2.5 rounded-xl border border-border/50 text-muted-foreground text-sm hover:bg-accent transition-colors";
 
 function LeadCard({
   children,
@@ -27,8 +27,8 @@ function LeadCard({
 }) {
   return (
     <div className={`w-full max-w-sm ${className}`}>
-      <div className="w-full rounded-2xl bg-dark-navy border border-primary-gold/30 shadow-xl overflow-hidden">
-        <div className="h-px w-full bg-gradient-to-l from-transparent via-accent-gold to-transparent" />
+      <div className="w-full rounded-2xl border border-border/50 bg-card/90 backdrop-blur-md shadow-xl overflow-hidden">
+        <div className="h-px w-full eureka-gradient opacity-60" />
         {children}
       </div>
     </div>
@@ -48,14 +48,14 @@ function LeadSuccess({
         className="p-6 flex flex-col items-center gap-3 text-center"
         dir="rtl"
       >
-        <div className="w-11 h-11 rounded-full border border-primary-gold/60 flex items-center justify-center text-accent-gold text-xl">
+        <div className="w-11 h-11 rounded-full border border-primary/60 eureka-gradient flex items-center justify-center text-white text-xl">
           ✓
         </div>
-        <p className="text-primary-gold text-sm font-semibold">
+        <p className="text-primary text-sm font-semibold">
           {message ?? "تم تسجيل طلبك بنجاح!"}
         </p>
         {subtitle && (
-          <p className="text-white/40 text-xs leading-relaxed">{subtitle}</p>
+          <p className="text-muted-foreground text-xs leading-relaxed">{subtitle}</p>
         )}
       </div>
     </LeadCard>
@@ -64,7 +64,7 @@ function LeadSuccess({
 
 function WidgetPromptBubble({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-2 md:px-4 py-1 md:py-2 rounded-xl rounded-tl-none bg-primary-gold text-dark-navy text-base w-fit max-w-full shadow-md">
+    <div className="px-3 py-2 rounded-2xl rounded-tl-sm border border-border/50 bg-card/70 backdrop-blur-sm text-foreground text-sm w-fit max-w-full shadow-sm">
       <div className="leading-relaxed">{children}</div>
     </div>
   );
@@ -99,8 +99,8 @@ function PhoneInput({
   return (
     <div className="flex flex-col gap-1.5">
       <div
-        className={`flex items-stretch border rounded-lg focus-within:border-primary-gold/75 transition-colors bg-white/5 overflow-hidden ${
-          error ? "border-red-400/70" : "border-primary-gold/30 focus-within:border-primary-gold/75"
+        className={`flex items-stretch border rounded-lg focus-within:border-primary/75 transition-colors bg-input overflow-hidden ${
+          error ? "border-destructive/70" : "border-border/50 focus-within:border-primary/75"
         }`}
       >
         <input
@@ -112,17 +112,17 @@ function PhoneInput({
           onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
           placeholder="01012345678"
           dir="ltr"
-          className="flex-1 min-w-0 bg-transparent px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none"
+          className="flex-1 min-w-0 bg-transparent px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none"
         />
-        <div className="flex items-center gap-1.5 px-3 border-r border-primary-gold/20 shrink-0 select-none">
-          <span className="text-accent-gold text-sm font-mono leading-none">+20</span>
+        <div className="flex items-center gap-1.5 px-3 border-r border-border/30 shrink-0 select-none">
+          <span className="text-primary text-sm font-mono leading-none">+20</span>
           <span role="img" aria-label="مصر" className="text-base leading-none">
             🇪🇬
           </span>
         </div>
       </div>
       {error && (
-        <p className="text-red-400/90 text-xs leading-relaxed" dir="rtl">
+        <p className="text-destructive text-xs leading-relaxed" dir="rtl">
           {error}
         </p>
       )}
@@ -401,13 +401,13 @@ export function LeadFullForm({
 
   return (
     <div dir="rtl">
-      <div className="relative w-full max-w-sm mx-auto rounded-2xl bg-dark-navy border border-primary-gold/30 shadow-2xl overflow-hidden">
-        <div className="h-px w-full bg-gradient-to-l from-transparent via-accent-gold to-transparent" />
+      <div className="relative w-full max-w-sm mx-auto rounded-2xl border border-border/50 bg-card/90 backdrop-blur-md shadow-2xl overflow-hidden">
+        <div className="h-px w-full eureka-gradient opacity-60" />
 
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 left-3 z-10 p-1.5 text-primary-gold/60 hover:text-primary-gold transition-colors"
+          className="absolute top-3 left-3 z-10 p-1.5 text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Close"
         >
           <FaTimes size={22} />
@@ -433,7 +433,7 @@ export function LeadFullForm({
           }}
           className="px-5 pt-10 pb-5 flex flex-col gap-4"
         >
-          <p className="text-primary-gold text-sm font-semibold text-center pb-1">
+          <p className="text-primary text-sm font-semibold text-center pb-1">
             بيانات التواصل
           </p>
 
@@ -495,7 +495,7 @@ export function LeadFullForm({
             تسجيل طلب تواصل
           </button>
 
-          <p className="text-white/25 text-[10px] text-center leading-relaxed -mt-1.5">
+          <p className="text-muted-foreground/60 text-[10px] text-center leading-relaxed -mt-1.5">
             بياناتك ستُعالج بأمان ولن تُرسل لنظام الذكاء الاصطناعي.
           </p>
         </form>
@@ -521,14 +521,14 @@ export function LeadFloatingButton({
   if (submitted) return null;
 
   const composerBtnCls =
-    "flex items-center justify-center gap-1.5 h-11 px-3 rounded-full bg-dark-navy text-accent-gold border border-accent-gold/50 shadow-sm hover:bg-secondary-blue hover:border-accent-gold transition-all duration-150 shrink-0 text-xs font-bold";
+    "flex items-center justify-center gap-1.5 h-9 px-3 rounded-xl border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary/60 transition-all duration-150 shrink-0 text-xs font-semibold";
 
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={inline ? composerBtnCls : "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-primary-gold border border-primary-gold/30 hover:bg-primary-gold/10 hover:border-primary-gold/50 transition-all duration-150 shrink-0"}
+        className={inline ? composerBtnCls : "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-primary border border-primary/30 hover:bg-primary/10 hover:border-primary/50 transition-all duration-150 shrink-0"}
         aria-label="Contact us"
       >
         <FaPhoneAlt size={14} />

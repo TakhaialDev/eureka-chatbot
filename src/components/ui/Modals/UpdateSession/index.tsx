@@ -49,29 +49,29 @@ export default function UpdateSessionModal({
     isOpen={isOpen}
     onClose={()=>setIsOpen(false)}
     >
-        <div className='w-full flex flex-col items-center py-4 px-10 gap-4'> 
-            <form className='space-y-7' onSubmit={handleSubmit(onSubmit)}>
-                <p className='text-center font-semibold text-lg capitalize'>
+        <div className='w-full flex flex-col items-center py-6 px-8 gap-4'>
+            <form className='w-full space-y-6' onSubmit={handleSubmit(onSubmit)}>
+                <p className='text-center font-semibold text-lg text-foreground'>
                     Update Session Title
                 </p>
-                <Input 
+                <Input
                 register={register}
                 errors={errors}
                 id='title'
                 placeholder='Enter Chat Title'
                 name="Title"
                 />
-                <div className='flex items-center justify-center gap-5'>
-                    <button 
+                <div className='flex items-center justify-center gap-3'>
+                    <button
                     className='btn btn-primary px-6! capitalize'
                     type='submit'
                     >
                         Submit
                     </button>
-                    <button 
+                    <button
                     className='btn btn-secondary px-6! capitalize'
                     type='button'
-                    onClick={()=>setIsOpen(false)}
+                    onClick={() => setIsOpen(false)}
                     >
                         Cancel
                     </button>

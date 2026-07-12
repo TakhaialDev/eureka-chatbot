@@ -29,16 +29,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children , className }) 
   if (!isOpen) return null;
 
   return (
-    // Backdrop
-    <div 
-      className="fixed inset-0 bg-black/50  flex items-center justify-center z-99"
-      onClick={onClose} // Close on backdrop click
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[99]"
+      onClick={onClose}
     >
-      {/* Modal content */}
-      <div 
-        className={`bg-cream-bg rounded-lg shadow-xl  mx-4 max-h-dvh overflow-y-auto p-2 ${className}`}
-        onClick={(e) => e.stopPropagation()} // Prevent close on content click
-      >        
+      <div
+        className={`rounded-2xl border border-border/50 bg-card/90 backdrop-blur-md shadow-2xl mx-4 max-h-dvh overflow-y-auto p-2 ${className}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </div>
     </div>

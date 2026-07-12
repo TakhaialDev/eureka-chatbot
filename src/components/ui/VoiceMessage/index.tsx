@@ -22,8 +22,8 @@ export default function VoiceMessage({ src, className = "", role }: Props) {
     barWidth: 2,
     barGap: 2,
     barRadius: 2,
-    waveColor:     "rgba(156,163,175,0.55)",
-    progressColor: role === "user" ? "#ebc09d" : "#00323c",
+    waveColor:     "rgba(142, 198, 65, 0.3)",
+    progressColor: "#8EC641",
     cursorColor:   "transparent",
     cursorWidth:   0,
     normalize:     true,
@@ -76,12 +76,12 @@ export default function VoiceMessage({ src, className = "", role }: Props) {
   };
 
   return (
-    <div className={`flex items-center gap-3 ${role === "user" ? "bg-dark-navy shadow-md" : "bg-primary-gold shadow-md"} rounded-xl px-3 py-2 w-full max-w-[480px] md:max-w-[560px] ${className}`}>
+    <div className={`flex items-center gap-3 border border-border/50 bg-card/70 backdrop-blur-sm rounded-xl px-3 py-2 w-full max-w-[480px] md:max-w-[560px] shadow-sm ${className}`}>
       <button
         onClick={() => wavesurfer?.playPause()}
-        className={`w-9 h-9 rounded-full ${role === "user" ? "bg-primary-gold text-dark-navy" : "bg-dark-navy text-white"} flex items-center justify-center hover:cursor-pointer transition-colors shrink-0`}
+        className="w-9 h-9 rounded-full eureka-gradient text-white flex items-center justify-center hover:cursor-pointer hover:opacity-90 transition-opacity shrink-0 shadow-sm"
       >
-        {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
       </button>
 
       <div
@@ -94,7 +94,7 @@ export default function VoiceMessage({ src, className = "", role }: Props) {
         <div ref={containerRef} />
       </div>
 
-      <span className={`text-xs md:text-sm md:font-medium shrink-0 tabular-nums ${role === "user" ? "text-primary-gold" : "text-dark-navy"}`}>
+      <span className="text-xs md:text-sm md:font-medium shrink-0 tabular-nums text-muted-foreground">
         {formatTime(currentTime)} / {formatTime(duration)}
       </span>
     </div>

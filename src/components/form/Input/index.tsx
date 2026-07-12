@@ -19,7 +19,7 @@ export default function Input({
     <div className={className}>
         {
           name &&
-          <label htmlFor={id} className="block text-sm font-bold text-grayA1 mb-2 px-2 capitalize">
+          <label htmlFor={id} className="block text-sm font-semibold text-foreground mb-2 px-1 capitalize">
           {name}
           </label>
         }
@@ -40,16 +40,16 @@ export default function Input({
             value={value}
             defaultValue={defaultValue}
             className={`
-            ${isAuth ? "":"text-neutral1 bg-primaryA1/5"}
-            w-full ${!!icon ? "ps-12": "ps-4"}  pe-4 py-3 bg-cream-bg border border-grayA4/20 rounded-lg  
-            placeholder-grayA2 focus:outline-none focus:ring-2 focus:ring-primaryA1
-            focus:border-transparent transition-all duration-300 disabled:bg-grayA3/20 !disabled:text-white`}
+            w-full ${!!icon ? "ps-12": "ps-4"} pe-4 py-3 bg-input border border-border/50 rounded-xl
+            text-foreground placeholder-muted-foreground
+            focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50
+            transition-all duration-300 disabled:opacity-50`}
             placeholder={placeholder}
         />
         </div>
         {errors?.[id] &&
         <div className='mt-1 capitalize text-sm'>
-            <p className='text-statusError font-semibold'>{errors[id].message}</p>
+            <p className='text-destructive font-semibold'>{errors[id].message}</p>
         </div>
         }
     </div>
