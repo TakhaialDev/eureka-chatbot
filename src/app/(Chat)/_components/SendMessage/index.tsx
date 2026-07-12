@@ -17,10 +17,12 @@ import { toast } from 'react-toastify';
 type ActiveMsg = { message: string; isQueued: boolean };
 type QueueDisplayItem = { id: string; label: string };
 
-export default function SendMessageComponent({ session_id, setMessageRes, messageRes }: {
+export default function SendMessageComponent({ session_id, setMessageRes, messageRes, pendingPrompt, onPromptConsumed }: {
   session_id: string;
   setMessageRes: React.Dispatch<React.SetStateAction<"Speaking" | "Typing" | null>>;
   messageRes: "Speaking" | "Typing" | null;
+  pendingPrompt?: string | null;
+  onPromptConsumed?: () => void;
 }) {
   const [isRecording, setIsRecording] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -56,6 +58,17 @@ export default function SendMessageComponent({ session_id, setMessageRes, messag
     defaultValues: { session_id, message: "" }
   });
   const message = watch("message");
+
+  useEffect(() => {
+    if (pendingPrompt) {
+      setValue("message", pendingPrompt);
+      setTimeout(() => {
+        handleSubmit(onSubmit)();
+        onPromptConsumed?.();
+      }, 50);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingPrompt]);
 
   const { data: taskStatusData, ...methods } = useStatusTask(taskId);
   const status = taskStatusData?.data?.status;

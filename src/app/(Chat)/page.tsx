@@ -9,14 +9,33 @@ import MessageComponent from "./_components/Message";
 import Cookies from 'js-cookie';
 import Image from "next/image";
 
-const SUGGESTED_PROMPTS = [
+const ALL_PROMPTS = [
   { label: "Find me a TV", prompt: "What 4K TVs do you have under KD 200?" },
   { label: "Best laptops", prompt: "Show me your best laptops for students" },
-  { label: "iPhone vs Samsung", prompt: "Compare the latest iPhone and Samsung Galaxy for me" },
+  { label: "iPhone vs Samsung", prompt: "Compare the latest iPhone and Samsung Galaxy flagship phones" },
   { label: "Home appliances", prompt: "What washing machines are currently on offer?" },
+  { label: "Cooking appliances", prompt: "What kitchen appliances do you recommend for a new home?" },
+  { label: "Air conditioners", prompt: "Do you have split air conditioners? What brands?" },
+  { label: "Gaming phones", prompt: "Which phones are best for gaming right now?" },
+  { label: "Budget smartphone", prompt: "What is the best smartphone under KD 50?" },
+  { label: "Samsung deals", prompt: "Do you have any current deals or discounts on Samsung products?" },
+  { label: "Refrigerators", prompt: "Show me your double-door refrigerators with the best energy rating" },
+  { label: "Headphones", prompt: "What wireless noise-cancelling headphones do you carry?" },
+  { label: "Smart TVs", prompt: "What are the differences between your OLED and QLED TVs?" },
+  { label: "Tablets", prompt: "I need an iPad alternative — what Android tablets do you have?" },
+  { label: "Vacuums", prompt: "Do you carry robot vacuum cleaners? What brands?" },
+  { label: "Camera phones", prompt: "Which phone has the best camera available in your store?" },
+  { label: "Delivery info", prompt: "What are your delivery options and how long does it take?" },
 ];
 
-function WelcomeScreen() {
+function pickRandom<T>(arr: T[], count: number): T[] {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
+
+function WelcomeScreen({ onSend }: { onSend: (prompt: string) => void }) {
+  const [prompts] = useState(() => pickRandom(ALL_PROMPTS, 4));
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 px-4 py-8">
       <motion.div
@@ -57,30 +76,33 @@ function WelcomeScreen() {
         transition={{ duration: 0.5, delay: 0.15 }}
         className="grid w-full max-w-lg grid-cols-1 gap-2.5 sm:grid-cols-2"
       >
-        {SUGGESTED_PROMPTS.map((item, i) => (
-          <PromptCard key={i} item={item} />
+        {prompts.map((item, i) => (
+          <PromptCard key={i} item={item} onSend={onSend} />
         ))}
       </motion.div>
     </div>
   );
 }
 
-function PromptCard({ item }: { item: { label: string; prompt: string } }) {
+function PromptCard({ item, onSend }: { item: { label: string; prompt: string }; onSend: (prompt: string) => void }) {
   return (
-    <motion.div
+    <motion.button
+      type="button"
+      onClick={() => onSend(item.prompt)}
       whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="eureka-gradient-border flex flex-col gap-1.5 rounded-xl bg-card p-4 text-left cursor-default transition-colors hover:bg-accent"
+      whileTap={{ scale: 0.97 }}
+      className="eureka-gradient-border flex flex-col gap-1.5 rounded-xl bg-card p-4 text-left cursor-pointer transition-colors hover:bg-accent w-full"
     >
       <span className="text-sm font-semibold text-foreground">{item.label}</span>
       <span className="text-xs text-muted-foreground line-clamp-2">{item.prompt}</span>
-    </motion.div>
+    </motion.button>
   );
 }
 
 export default function Chat() {
   const router = useRouter();
   const [messageRes, setMessageRes] = useState<"Typing" | "Speaking" | null>(null);
+  const [pendingPrompt, setPendingPrompt] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const [chatId, setChatId] = useState<string | null>(null);
@@ -109,7 +131,7 @@ export default function Chat() {
         >
           <ErrorBoundary {...methods}>
             {showWelcome ? (
-              <WelcomeScreen />
+              <WelcomeScreen onSend={(prompt) => setPendingPrompt(prompt)} />
             ) : (
               <div className="flex-1 flex flex-col-reverse overflow-y-auto py-2 mb-2">
                 <div className="flex flex-col-reverse gap-4 px-4 sm:px-8 w-full">
@@ -130,6 +152,8 @@ export default function Chat() {
                 session_id={sessionId}
                 messageRes={messageRes}
                 setMessageRes={setMessageRes}
+                pendingPrompt={pendingPrompt}
+                onPromptConsumed={() => setPendingPrompt(null)}
               />
             </div>
           </ErrorBoundary>
