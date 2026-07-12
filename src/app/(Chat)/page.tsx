@@ -112,7 +112,7 @@ export default function Chat() {
               <WelcomeScreen />
             ) : (
               <div className="flex-1 flex flex-col-reverse overflow-y-auto py-2 mb-2">
-                <div className="flex flex-col-reverse gap-4 px-3 sm:px-6 w-full max-w-3xl mx-auto">
+                <div className="flex flex-col-reverse gap-4 px-4 sm:px-8 w-full">
                   {messages?.map((m: any) => (
                     <MessageComponent
                       key={m.id}
@@ -125,7 +125,7 @@ export default function Chat() {
             )}
 
             {/* Fixed Bottom Input Area */}
-            <div className="pb-4 px-3 sm:px-6 w-full max-w-3xl mx-auto shrink-0">
+            <div className="pb-4 px-4 sm:px-8 w-full shrink-0">
               <SendMessageComponent
                 session_id={sessionId}
                 messageRes={messageRes}

@@ -70,19 +70,18 @@ function WidgetPromptBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
-const EGYPT_PHONE_ERROR =
-  "رقم الموبايل غير صحيح. أدخل 11 رقم يبدأ بـ 01 أو 10 أرقام بدون الصفر";
+const KUWAIT_PHONE_ERROR =
+  "رقم الموبايل غير صحيح. أدخل 8 أرقام كويتية تبدأ بـ 5 أو 6 أو 9";
 
-/** Valid: 01xxxxxxxxx (11 digits) or 1xxxxxxxxx (10 digits, +20 prefix in UI) */
-function normalizeEgyptianPhone(raw: string): string | null {
+/** Valid: 8-digit Kuwaiti mobile starting with 5, 6, or 9 */
+function normalizeKuwaitiPhone(raw: string): string | null {
   const digits = raw.replace(/\D/g, "");
-  if (/^01[0125]\d{8}$/.test(digits)) return digits;
-  if (/^1[0125]\d{8}$/.test(digits)) return `0${digits}`;
+  if (/^[569]\d{7}$/.test(digits)) return digits;
   return null;
 }
 
-function isValidEgyptianPhone(raw: string): boolean {
-  return normalizeEgyptianPhone(raw) !== null;
+function isValidKuwaitiPhone(raw: string): boolean {
+  return normalizeKuwaitiPhone(raw) !== null;
 }
 
 function PhoneInput({
@@ -107,17 +106,17 @@ function PhoneInput({
           id={id}
           type="tel"
           inputMode="numeric"
-          maxLength={11}
+          maxLength={8}
           value={value}
           onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
-          placeholder="01012345678"
+          placeholder="5XXXXXXX"
           dir="ltr"
           className="flex-1 min-w-0 bg-transparent px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none"
         />
         <div className="flex items-center gap-1.5 px-3 border-r border-border/30 shrink-0 select-none">
-          <span className="text-primary text-sm font-mono leading-none">+20</span>
-          <span role="img" aria-label="مصر" className="text-base leading-none">
-            🇪🇬
+          <span className="text-primary text-sm font-mono leading-none">+965</span>
+          <span role="img" aria-label="الكويت" className="text-base leading-none">
+            🇰🇼
           </span>
         </div>
       </div>
@@ -254,10 +253,10 @@ function CollectPhoneWidget({
           className="px-5 pt-4 pb-5 flex flex-col gap-3"
           onSubmit={(e) => {
             e.preventDefault();
-            const normalized = normalizeEgyptianPhone(phone);
+            const normalized = normalizeKuwaitiPhone(phone);
             if (!normalized) {
-              setPhoneError(EGYPT_PHONE_ERROR);
-              toast.error(EGYPT_PHONE_ERROR);
+              setPhoneError(KUWAIT_PHONE_ERROR);
+              toast.error(KUWAIT_PHONE_ERROR);
               return;
             }
             submitLead.mutate({
@@ -283,7 +282,7 @@ function CollectPhoneWidget({
           </div>
           <button
             type="submit"
-            disabled={submitLead.isPending || !isValidEgyptianPhone(phone)}
+            disabled={submitLead.isPending || !isValidKuwaitiPhone(phone)}
             className={primaryBtnCls}
           >
             {submitLead.isPending && (
@@ -389,7 +388,7 @@ export function LeadFullForm({
   });
 
   const name = [firstName.trim(), lastName.trim()].filter(Boolean).join(" ");
-  const phoneValid = isValidEgyptianPhone(phone);
+  const phoneValid = isValidKuwaitiPhone(phone);
 
   if (success) {
     return (
@@ -416,11 +415,11 @@ export function LeadFullForm({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            const normalized = normalizeEgyptianPhone(phone);
+            const normalized = normalizeKuwaitiPhone(phone);
             if (!name || !normalized) {
               if (!normalized) {
-                setPhoneError(EGYPT_PHONE_ERROR);
-                toast.error(EGYPT_PHONE_ERROR);
+                setPhoneError(KUWAIT_PHONE_ERROR);
+                toast.error(KUWAIT_PHONE_ERROR);
               }
               return;
             }
