@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Eureka Shopping Assistant",
   description: "Your AI-powered shopping guide for Eureka Kuwait — electronics, home appliances, and more.",
-  icons: {
-    icon: "/eureka-logo-green.png",
+    icons: {
+    icon: "/favicon.png",
   },
 };
 
