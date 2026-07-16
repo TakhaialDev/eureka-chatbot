@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { ArrowUp } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
 type ActiveMsg = { message: string; isQueued: boolean };
 type QueueDisplayItem = { id: string; label: string };
@@ -27,6 +28,8 @@ export default function SendMessageComponent({ session_id, setMessageRes, messag
   const [isRecording, setIsRecording] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const queryClient = useQueryClient();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const [activeMsg, setActiveMsg] = useState<ActiveMsg | null>(null);
   const [taskId, setTaskId] = useState<string | null>(null);
@@ -104,7 +107,14 @@ export default function SendMessageComponent({ session_id, setMessageRes, messag
   };
 
   const onSubmit: SubmitHandler<SendMessageProps> = (data) => {
+    if (!turnstileToken) {
+      toast.error("Security check not ready. Please wait a moment and try again.");
+      return;
+    }
     dismissNameWidgetOnSend();
+    const payload = { ...data, turnstile_token: turnstileToken };
+    turnstileRef.current?.reset();
+    setTurnstileToken(null);
     if (isBusy) {
       const id = crypto.randomUUID();
       sendQueue.current.push({ id, message: data.message });
@@ -112,7 +122,7 @@ export default function SendMessageComponent({ session_id, setMessageRes, messag
       setValue("message", "");
     } else {
       setActiveMsg({ message: data.message, isQueued: false });
-      sendMessage.mutate(data);
+      sendMessage.mutate(payload);
     }
   };
 
@@ -201,6 +211,14 @@ export default function SendMessageComponent({ session_id, setMessageRes, messag
             </motion.div>
           )}
 
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onExpire={() => setTurnstileToken(null)}
+            onError={() => setTurnstileToken(null)}
+            options={{ appearance: "interaction-only" }}
+          />
           <form
             className="flex items-end gap-2 px-3 py-2 min-h-[52px]"
             onSubmit={handleSubmit(onSubmit)}
